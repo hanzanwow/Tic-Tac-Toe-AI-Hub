@@ -1,8 +1,6 @@
+#include <iostream>
 #include <print>
+#include "MenuSystem.h"  // เรียกใช้เมนู
+#include "TicTacToe.h"   // เรียกใช้เกม XO
+#include "SnakeGame.h"
 
-int main()
-{
-    std::print("Hello, World!\n");
-    system("pause");
-    return 0;
-}
