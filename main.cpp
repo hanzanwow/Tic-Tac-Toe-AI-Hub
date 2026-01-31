@@ -1,11 +1,12 @@
 #include <iostream>
-#include <print>
 #include "MenuSystem.h"  // เรียกใช้เมนู
 #include "TicTacToe.h"   // เรียกใช้เกม XO
 #include "SnakeGame.h"
 
+// Run code -> Terminal -> g++ *.cpp -o gamehub -> Enter
+// ./gamehub
 int main(){
 
-    std::print("Welcome to the Game Hub!\n");
+    std::cout << "Welcome to Game Hub!" << std::endl;
     return 0;
 }
