@@ -2,7 +2,7 @@
 #define XOBOT_H
 
 class XOBot {
-
+    
 };
 
 #endif
