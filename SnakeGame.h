@@ -1,5 +1,6 @@
 #ifndef SnakeGame_H
 #define SnakeGame_H
+#include <deque>
 
 enum Direction {
     stop = 0,
