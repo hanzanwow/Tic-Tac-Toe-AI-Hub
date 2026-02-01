@@ -20,8 +20,7 @@ int main(){
                 break;
             }
             case 2: {
-                SnakeGame snake;
-                snake.run();
+                Snake snake(1,2);
                 break;
             }
             case 3:
