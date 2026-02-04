@@ -3,12 +3,16 @@
 
 #include "XOBot.h"
 
+class player;
 class TicTacToe
 {
 private:
+    friend class player;
+    player *ptrPlayer;
+protected:
     char spaces[9] = {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '};
-    char player = 'X';
-    char computer = 'O';
+    char playerIcon = 'X';
+    char computerIcon = 'O';
     bool running = true;
     int PlayerWins = 0;
     int ComputerWins = 0;
@@ -17,17 +21,25 @@ private:
 
     void drawBoard();
     void resetBoard();
-    void playerMove();
-    void computerMove();
     char checkWinner();
     bool checkTie();
     bool PlayAgain();
-    void updateScore();
+    void updateScore(char winner);
     void displayScore();
 
 public:
     TicTacToe();
     void runGame();
+};
+
+class player
+{
+private:
+    TicTacToe *game;
+    void playerMove();
+    public:
+    player(TicTacToe *t) : game(t) {}
+    void playerMove();
 };
 
 #endif

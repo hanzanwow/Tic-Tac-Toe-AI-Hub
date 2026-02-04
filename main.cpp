@@ -2,6 +2,7 @@
 #include "MenuSystem.h"  // เรียกใช้เมนู
 #include "TicTacToe.h"   // เรียกใช้เกม XO
 #include "SnakeGame.h"
+#include "Utils.h"
 
 // Run code -> Terminal -> g++ *.cpp -o gamehub -> Enter
 // ./gamehub

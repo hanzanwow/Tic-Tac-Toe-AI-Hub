@@ -3,7 +3,7 @@
 #include <deque>
 #include "SnakeGame.h"
 #include <cstdlib>
-
+#include "Utils.h"
 Snake::Snake(int start_x, int start_y){
     body.push_front({start_x, start_y});
     direction = stop;
