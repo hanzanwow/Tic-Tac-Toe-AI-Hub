@@ -33,7 +33,6 @@ void XOBot::Move()
 void XOBot::EasyMode()
 {
     int number;
-    number = rand() % 9;
     while (true)
     {
         number = std::rand() % 9;
