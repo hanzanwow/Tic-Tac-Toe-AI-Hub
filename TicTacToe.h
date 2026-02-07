@@ -2,6 +2,8 @@
 #define TICTACTOE_H
 
 #include <memory>
+#include <array>
+#include <vector>
 #include "XOBot.h"
 
 class XOBot;
@@ -14,10 +16,10 @@ private:
     std::unique_ptr<XOBot> ptrBot;
 
 protected:
-    char spaces[9] = {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '};
-    char playerIcon;
-    char computerIcon;
-    bool running;
+    std::array<char, 9> spaces = {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '};
+    const char playerIcon;
+    const char computerIcon;
+    bool running = true;
     int PlayerWins;
     int ComputerWins;
     int Ties;
@@ -31,8 +33,12 @@ protected:
     void Show_status(char status);
 
 public:
-    // Application Programming Interface (API)
-    //  API สำหรับให้ Player Bot เรียกใช้
+    /*
+    #########==================================================#########
+    #########-----Application Programming Interface (API)------#########
+    #########==================================================#########
+                    API สำหรับให้ Player,Bot เรียกใช้
+    */
 
     // ขอลงตำแหน่งนี้
     bool placeMove(int index, char icon)
@@ -44,19 +50,28 @@ public:
         }
         return false;
     }
+    // Getter สำหรับให้ icon
+    char getPlayerIcon() const { return playerIcon; }
+    char getComputerIcon() const { return computerIcon; }
     // ขอดูช่องนี้คือตัวอะไร
     char getGridAt(int index) const
     {
-        if (index >= 0 && index < 9)
-            return spaces[index];
-        return '\0'; // Error
+        if (index < 0 || index >= static_cast<int>(spaces.size()))
+            return '\0';
+        return spaces.at(index);
     }
-    // Getter สำหรบให icon
-    char getPlayerIcon() const { return playerIcon; }
-    char getComputerIcon() const { return computerIcon; }
+    // ขอดูว่าช่องไหนมีอะไรบ้าง
+    auto &getMap() const
+    {
+        return spaces;
+    }
 
+
+    // constructor
     TicTacToe();
+    // deconstructor
     ~TicTacToe();
+
     void runGame();
 };
 class player
@@ -65,7 +80,7 @@ private:
     TicTacToe *game;
 
 public:
-    player(TicTacToe *t) : game(t) {}
+    player(TicTacToe *API) : game(API) {}
     void Move();
 };
 

@@ -10,15 +10,17 @@
 #include <math.h>
 #include <vector>
 #include <memory>
+#include <iterator>
 
-TicTacToe::TicTacToe()
+TicTacToe::TicTacToe() : running(true), playerIcon('X'), computerIcon('O'), PlayerWins(0u), ComputerWins(0u), Ties(0u)
 {
-    running = true;
-    playerIcon = 'X';
-    computerIcon = 'O';
-    PlayerWins = 0u;
-    ComputerWins = 0u;
-    Ties = 0u;
+    // running = true;
+    // playerIcon = 'X';
+    // computerIcon = 'O';
+    // PlayerWins = 0u;
+    // ComputerWins = 0u;
+    // Ties = 0u;
+
     // สร้าง object player และ bot โดยส่ง this (ตัวเกมปัจจุบัน) เข้าไป
     ptrPlayer = std::make_unique<player>(this);
     ptrBot = std::make_unique<XOBot>(this);
@@ -43,7 +45,7 @@ void TicTacToe::runGame()
             drawBoard();
 
             ptrPlayer->Move();
-            drawBoard();
+            //drawBoard();
             count++;
 
             if (count >= 3)
@@ -57,7 +59,7 @@ void TicTacToe::runGame()
             }
 
             ptrBot->Move();
-            drawBoard();
+            //drawBoard();
             count++;
 
             if (count >= 3)
@@ -105,23 +107,22 @@ void TicTacToe::drawBoard()
     std::cout << "==== XO XO XO====";
     std::cout << std::endl;
     std::cout << "     |     |     " << std::endl;
-    std::cout << "  " << spaces[0] << "  |  " << spaces[1] << "  |  " << spaces[2] << "  " << std::endl;
+    std::cout << "  " << spaces.at(0) << "  |  " << spaces.at(1) << "  |  " << spaces.at(2) << "  " << std::endl;
     std::cout << "_____|_____|_____" << std::endl;
     std::cout << "     |     |     " << std::endl;
-    std::cout << "  " << spaces[3] << "  |  " << spaces[4] << "  |  " << spaces[5] << "  " << std::endl;
+    std::cout << "  " << spaces.at(3) << "  |  " << spaces.at(4) << "  |  " << spaces.at(5) << "  " << std::endl;
     std::cout << "_____|_____|_____" << std::endl;
     std::cout << "     |     |     " << std::endl;
-    std::cout << "  " << spaces[6] << "  |  " << spaces[7] << "  |  " << spaces[8] << "  " << std::endl;
+    std::cout << "  " << spaces.at(6) << "  |  " << spaces.at(7) << "  |  " << spaces.at(8) << "  " << std::endl;
     std::cout << "     |     |     " << std::endl;
     std::cout << "==== XO XO XO====";
     std::cout << std::endl;
 }
 void TicTacToe::resetBoard()
 {
-    for (int i = 0; i < 9; i++)
-    {
-        spaces[i] = ' ';
-    }
+    // for (auto& i : spaces)
+    //     i = ' ';
+    spaces.fill(' ');
 }
 void player::Move()
 {
@@ -157,22 +158,24 @@ char TicTacToe::checkGameStatus()
     };
     */
     // check ตั้ง นอน
-    for (int i = 0; i < 3; i++)
+    for (auto i = 0u; i < 3; i++)
     {
-        int rStart = i * 3;
-        if (spaces[rStart] != ' ' && spaces[rStart] == spaces[rStart + 1] && spaces[rStart] == spaces[rStart + 2])
-            return spaces[rStart];
-        if (spaces[i] != ' ' && spaces[i] == spaces[i + 3] && spaces[i] == spaces[i + 6])
-            return spaces[i];
+        auto rStart = i * 3u;
+        // ตรวจแนวตั้ง
+        if (spaces.at(rStart) != ' ' && spaces.at(rStart) == spaces.at(rStart + 1) && spaces[rStart] == spaces.at(rStart + 2))
+            return spaces.at(rStart);
+        // ตรวจแนวนอน
+        if (spaces.at(i) != ' ' && spaces.at(i) == spaces.at(i + 3) && spaces.at(i) == spaces.at(i + 6))
+            return spaces.at(i);
     }
     // ทแยง
-    if (spaces[0] != ' ' && spaces[0] == spaces[4] && spaces[4] == spaces[8])
-        return spaces[0];
-    if (spaces[2] != ' ' && spaces[2] == spaces[4] && spaces[4] == spaces[6])
-        return spaces[2];
+    if (spaces.at(0) != ' ' && spaces.at(0) == spaces.at(4) && spaces.at(4) == spaces.at(8))
+        return spaces.at(0);
+    if (spaces.at(2) != ' ' && spaces.at(2) == spaces.at(4) && spaces.at(4) == spaces.at(6))
+        return spaces.at(2);
     // ยังไม่จบ
-    for (int i = 0; i < 9; i++)
-        if (spaces[i] == ' ')
+    for (const auto &i : spaces)
+        if (i == ' ')
             return ' ';
     // เสมอ
     return 'T';
