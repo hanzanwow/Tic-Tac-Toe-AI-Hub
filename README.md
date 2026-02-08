@@ -70,7 +70,7 @@ This project demostrates my understanding of AI algorithms and OOP principles.
 ## ✨ What I Learned
 - Implementing Minimax Algorithm from scratch
 - Object-Oriented Desing in Modern C++
-- Game stae mangement and Ai decision-making
+- Game state management and AI decision-making
 - Lambda function
 - Smart pointers
 - Basic API
