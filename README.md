@@ -50,4 +50,18 @@ A classic Tic-Tac-Toe game reimagined with **Modern C++ (OOP)**. This project de
 
 **Pattaradanai Amazutsumi**
 - Discord: **haszan._**
-- GitHub: **@hanzanwow**
+- GitHub: **@hanzanwow** 
+
+## 🎓 Project BackGround
+Created during my **1st year, 2nd semester** as a Computer Engineer student.
+<br>
+This project demostrates my understanding of AI algorithms and OOP principles.
+
+## ✨ What I Learned
+- Implementing Minimax Algorithm from scratch
+- Object-Oriented Desing in Modern C++
+- Game stae mangement and Ai decision-making
+
+## 🚀 Future Improvements
+- [ ] Add GIU using SFML
+- [ ] Implement Alpha-Beta Pruning
