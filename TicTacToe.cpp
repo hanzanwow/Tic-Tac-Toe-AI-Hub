@@ -7,15 +7,19 @@
 
 TicTacToe::TicTacToe() : mode(random_model()), playerIcon('X'), computerIcon('O'), running(true), PlayerWins(0u), ComputerWins(0u), Ties(0u)
 {
-    // สร้าง object player และ bot โดยส่ง this (ตัวเกมปัจจุบัน) เข้าไป
+    // Create player and bot objects, passing the current game instance
     ptrPlayer = std::make_unique<player>(this);
     ptrBot = std::make_unique<XOBot>(this);
 }
+
 TicTacToe::~TicTacToe() { std::cout << "Tic Tac Toe has Delate successfully" << std::endl; }
+
 Difficulty TicTacToe::random_model(){ auto random = std::rand() % 3; return static_cast<Difficulty>(random); }
+
+// Main Game Loop
 void TicTacToe::runGame()
 {
-    while (true)
+    while (true)// Main loop
     {
         std::system("cls");
         mode = random_model();
@@ -24,6 +28,8 @@ void TicTacToe::runGame()
 
         auto count = 0u;
         auto status = ' ';
+
+        // match loop
         while (running)
         {
             drawBoard();
@@ -62,6 +68,7 @@ void TicTacToe::runGame()
         
     }
 }
+
 void TicTacToe::displayScore()
 {
     std::cout << Color::GREEN << "Player (X): " << Color::RESET << PlayerWins << Color::MAGENTA << "  |  Computer (O): " << Color::RESET << ComputerWins << Color::YELLOW << " | Ties: " << Color::RESET << Ties << std::endl;
@@ -74,6 +81,7 @@ void TicTacToe::displayScore()
     }
     std::cout << Color::RESET << std::endl;
 }
+
 void TicTacToe::drawBoard()
 {
     std::cout << std::endl;
@@ -92,47 +100,56 @@ void TicTacToe::drawBoard()
     std::cout << "==== XO XO XO====";
     std::cout << std::endl;
 }
+
 void TicTacToe::resetBoard()
 {
     // for (auto& i : spaces)
     //     i = ' ';
     spaces.fill(' ');
 }
+
 char TicTacToe::checkGameStatus()
 {
     /*
     std::array<std::array<3>,8> wins = {
-        {0, 1, 2}, {3, 4, 5}, {6, 7, 8}, // นอน
+        {0, 1, 2}, {3, 4, 5}, {6, 7, 8},
         {0, 3, 6},
         {1, 4, 7},
-        {2, 5, 8}, // ตั้ง
+        {2, 5, 8},
         {0, 4, 8},
-        {2, 4, 6} // ทแยง
+        {2, 4, 6}
     };
     */
-    // check ตั้ง นอน
+    // check rows and columns
     for (auto i = 0; i < 3; i++)
     {
         auto rStart = i * 3;
-        // ตรวจแนวตั้ง
+
+        // Checks [0,1,2], [3,4,5], [6,7,8]
         if (spaces.at(rStart) != ' ' && spaces.at(rStart) == spaces.at(rStart + 1) && spaces[rStart] == spaces.at(rStart + 2))
             return spaces.at(rStart);
-        // ตรวจแนวนอน
+
+        // Checks [0,3,6], [1,4,7], [2,5,8]
         if (spaces.at(i) != ' ' && spaces.at(i) == spaces.at(i + 3) && spaces.at(i) == spaces.at(i + 6))
             return spaces.at(i);
     }
-    // ทแยง
+    
+    // [0,4,8]
     if (spaces.at(0) != ' ' && spaces.at(0) == spaces.at(4) && spaces.at(4) == spaces.at(8))
         return spaces.at(0);
+    
+    //[2,4,6]
     if (spaces.at(2) != ' ' && spaces.at(2) == spaces.at(4) && spaces.at(4) == spaces.at(6))
         return spaces.at(2);
-    // ยังไม่จบ
+
+    // empty spaces left
     for (const auto &i : spaces)
         if (i == ' ')
             return ' ';
-    // เสมอ
+    // Tie
     return 'T';
 }
+
 void TicTacToe::updateScore(char status)
 {
     if (status == playerIcon)
@@ -142,9 +159,11 @@ void TicTacToe::updateScore(char status)
     else if (status == 'T')
         Ties++;
 }
+
 bool TicTacToe::PlayAgain()
 {
     char playagain;
+    // Clear buffer
     std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
     do
     {
@@ -156,6 +175,7 @@ bool TicTacToe::PlayAgain()
 
     return (playagain == 'y');
 }
+
 void TicTacToe::Show_status(char status)
 {
     if (status == playerIcon)

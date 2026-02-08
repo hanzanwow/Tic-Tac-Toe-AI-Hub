@@ -8,7 +8,6 @@
 XOBot::XOBot(TicTacToe *API) : game(API), PLAYER(API->getPlayerIcon()), AI(API->getComputerIcon()), hard(API, AI, PLAYER) {}
 void XOBot::Move()
 {
-    //// Difficulty mode = Difficulty::Hard; //test function hard
     switch (game->getMode())
     {
     case Difficulty::Easy:
@@ -36,26 +35,27 @@ void XOBot::MediumMode()
 {
     const std::array<std::array<int, 3>, 8> wins_stage =
         {{
-            {0, 1, 2}, // นอน
-            {3, 4, 5}, // นอน
-            {6, 7, 8}, // นอน
-            {0, 3, 6}, // ตั้ง
-            {1, 4, 7}, // ตั้ง
-            {2, 5, 8}, // ตั้ง
-            {0, 4, 8}, // ทแยง
-            {2, 4, 6}  // ทแยง
+            {0, 1, 2}, // Row 1
+            {3, 4, 5}, // Row 2
+            {6, 7, 8}, // Row 3
+            {0, 3, 6}, // Col 4
+            {1, 4, 7}, // Col 5
+            {2, 5, 8}, // Col 6
+            {0, 4, 8}, // Diagonal 1
+            {2, 4, 6}  // Diagonal 1
         }};
 
+    // Lambda function to find critical spot(win or block)
+    // Returns index of the spot, or -1 if none found.
     auto findWinningSpot = [&](char targetIcon) -> int
     {
-        // ดูทุกความเป็นไปได้
         for (const auto &line : wins_stage)
         {
             auto countTarget = 0;
             auto countEmpty = 0;
             auto TargetIndex = -1;
 
-            // ดูทุกความเป็นไปได้
+            // Check each position
             for (auto index : line)
             {
                 auto now = game->getPositionAt(index);
@@ -69,57 +69,53 @@ void XOBot::MediumMode()
                 }
             }
 
-            // ใกล้ชนะ
+            // Critical Move
             if (countTarget == 2 && countEmpty == 1)
             {
                 return TargetIndex;
             }
         }
 
-        // ไม่ชนะไม่แพ้
+        // No critical move
         return -1;
     };
 
     auto change = std::rand() % 100;
     if (change > 50)
     {
-        // เดินตาที่มีโอกาศขนะ
+        // 50% Chance to play smartly
         auto winMove = findWinningSpot(AI);
         if (winMove != -1)
         {
+            // Win
             game->placeMove(winMove, AI);
             std::cout << "AI Medium Mode attacks at " << winMove + 1 << std::endl;
             return;
         }
 
-        // เดินตาที่มีโอกาสป้องกันแพ้
         auto blockMove = findWinningSpot(PLAYER);
         if (blockMove != -1)
         {
+            // Block
             game->placeMove(blockMove, AI);
             std::cout << "AI Medium Mode blocks at " << blockMove + 1 << std::endl;
             return;
         }
     }
 
-    // ไม่ชนะไม่แพ้
+    // play random or no critical move
     EasyMode();
 }
 
 XOBot::HardMode::HardMode(TicTacToe *API, char ai, char human) : game(API), AI(ai), PLAYER(human) {}
+
 bool XOBot::HardMode::isWinner(const std::array<char, 9> &board, const char &player) const
 {
-    // 3ช่อง 8 เส้น
     const std::array<std::array<int, 3>, 8> wins_stage =
         {{
-            {0, 1, 2}, // นอน
-            {3, 4, 5}, // นอน
-            {6, 7, 8}, // นอน
-            {0, 3, 6}, // ตั้ง
-            {1, 4, 7}, // ตั้ง
-            {2, 5, 8}, // ตั้ง
-            {0, 4, 8}, // ทแยง
-            {2, 4, 6}  // ทแยง
+            {0, 1, 2}, {3, 4, 5}, {6, 7, 8}, // Rows
+            {0, 3, 6}, {1, 4, 7}, {2, 5, 8}, // Cols
+            {0, 4, 8}, {2, 4, 6} // Diagonals
         }};
 
     for (const auto &line : wins_stage)
@@ -127,6 +123,7 @@ bool XOBot::HardMode::isWinner(const std::array<char, 9> &board, const char &pla
             return true;
     return false;
 }
+
 bool XOBot::HardMode::isBoardFull(const std::array<char, 9> &board) const
 {
     for (const auto &space : board)
@@ -134,6 +131,10 @@ bool XOBot::HardMode::isBoardFull(const std::array<char, 9> &board) const
             return false;
     return true;
 }
+
+// The Minimax Recursive Function
+// isMaximizing = true  -> AI's turn (try to get highest score)
+// isMaximizing = false -> Player's turn (assume Player plays optimally to get lowest score)
 int XOBot::HardMode::minimax(std::array<char, 9> &board, bool isMaximizing)
 {
     if (isWinner(board, AI))
@@ -150,9 +151,9 @@ int XOBot::HardMode::minimax(std::array<char, 9> &board, bool isMaximizing)
         {
             if (board.at(i) == ' ')
             {
-                board.at(i) = AI; // ลองใส่
-                bestScore = std::max(bestScore, minimax(board, false));
-                board.at(i) = ' '; // เอาออก
+                board.at(i) = AI; // Try to Make move
+                bestScore = std::max(bestScore, minimax(board, false));// Recurse
+                board.at(i) = ' '; // Undo
             }
         }
         return bestScore;
@@ -188,6 +189,7 @@ int XOBot::HardMode::findBestMove()
             int score = minimax(TestBoard, false);
             TestBoard.at(i) = ' ';
 
+            // Debug output
             std::cout << "Slot " << i + 1 << " : Score = " << score << std::endl;
 
             if (score > bestScore)

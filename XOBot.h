@@ -12,9 +12,13 @@ private:
     char PLAYER;
     char AI;
 
+    // Random moves
     void EasyMode();
+
+    // Block/Win logic with some random
     void MediumMode();
 
+    // Nested class to encapsulate complex Hard Mode logic (Minimax)
     class HardMode
     {
     private:
@@ -23,6 +27,9 @@ private:
         char PLAYER;
         bool isWinner(const std::array<char, 9> &board, const char &player) const;
         bool isBoardFull(const std::array<char, 9> &board) const;
+
+        // Minimax algorithm
+        // Returns a score: +10 (AI wins), -10 (Player wins), 0 (Tie)
         int minimax(std::array<char, 9> &board, bool isMaximizing);
         int findBestMove();
 

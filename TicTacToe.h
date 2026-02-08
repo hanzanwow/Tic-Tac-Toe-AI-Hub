@@ -8,6 +8,8 @@
 
 class XOBot;
 class player;
+
+// game difficulty levels
 enum class Difficulty
 {
     Easy,
@@ -18,14 +20,17 @@ enum class Difficulty
 class TicTacToe
 {
 private:
+    // Smart pointers for Player and Bot management
+    // instance of "new & delete"
     std::unique_ptr<player> ptrPlayer;
     std::unique_ptr<XOBot> ptrBot;
-    
+
     Difficulty mode;
     std::array<char, 9> spaces = {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '};
     const char playerIcon;
     const char computerIcon;
     bool running;
+
     int PlayerWins;
     int ComputerWins;
     int Ties;
@@ -44,10 +49,10 @@ public:
     #########==================================================#########
     #########-----Application Programming Interface (API)------#########
     #########==================================================#########
-                    API สำหรับให้ Player,Bot เรียกใช้
+        API for Player and Bot to interact with the game board
     */
 
-    // ขอลงตำแหน่งนี้
+    // place a move
     bool placeMove(int index, char icon)
     {
         if (index >= 0 && index < 9 && spaces[index] == ' ')
@@ -57,19 +62,21 @@ public:
         }
         return false;
     }
-    // Getter สำหรับให้ icon
+
+    // Getters game icons
     char getPlayerIcon() const { return playerIcon; }
     char getComputerIcon() const { return computerIcon; }
-    // ขอดูช่องนี้คือตัวอะไร
-    char getPositionAt(int index) const { return spaces.at(index); }
-    // ขอดูว่าช่องไหนมีอะไรบ้าง
-    auto &getMap() const{return spaces;}
-    //ขอดู mode
-    auto &getMode() const {return mode;}
 
-    // constructor
+    // Returns character at board position
+    char getPositionAt(int index) const { return spaces.at(index); }
+
+    // Return board array
+    auto &getMap() const { return spaces; }
+
+    // Returns game mode
+    auto &getMode() const { return mode; }
+
     TicTacToe();
-    // deconstructor
     ~TicTacToe();
 
     void runGame();

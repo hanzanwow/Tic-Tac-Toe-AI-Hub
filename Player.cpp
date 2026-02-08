@@ -19,7 +19,12 @@ void player::Move()
             std::cerr << Color::RED << "Invalid input. Please enter a number." << Color::RESET << std::endl;
             continue;
         }
-        number--; //(1-9) - 1
+
+        // Adjust input to 0-based index (User enters 1-9, Array uses 0-8)
+        number--;
+
+        // Attempt to place the move via the Game API
+        // If placeMove returns true, the move was successful.
         if (game->placeMove(number, game->getPlayerIcon()))
             break;
         else
