@@ -5,6 +5,7 @@ class TicTacToe;
 class player
 {
 private:
+    // Pointer to the TicTacToe game to access API methods
     TicTacToe *game;
 
 public:
