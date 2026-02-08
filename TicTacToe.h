@@ -3,27 +3,34 @@
 
 #include <memory>
 #include <array>
-#include <vector>
 #include "XOBot.h"
+#include "Player.h"
 
 class XOBot;
 class player;
+enum class Difficulty
+{
+    Easy,
+    Medium,
+    Hard
+};
 
 class TicTacToe
 {
 private:
     std::unique_ptr<player> ptrPlayer;
     std::unique_ptr<XOBot> ptrBot;
-
-protected:
+    
+    Difficulty mode;
     std::array<char, 9> spaces = {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '};
     const char playerIcon;
     const char computerIcon;
-    bool running = true;
+    bool running;
     int PlayerWins;
     int ComputerWins;
     int Ties;
 
+    Difficulty random_model();
     void drawBoard();
     void resetBoard();
     char checkGameStatus();
@@ -54,18 +61,11 @@ public:
     char getPlayerIcon() const { return playerIcon; }
     char getComputerIcon() const { return computerIcon; }
     // ขอดูช่องนี้คือตัวอะไร
-    char getGridAt(int index) const
-    {
-        if (index < 0 || index >= static_cast<int>(spaces.size()))
-            return '\0';
-        return spaces.at(index);
-    }
+    char getPositionAt(int index) const { return spaces.at(index); }
     // ขอดูว่าช่องไหนมีอะไรบ้าง
-    auto &getMap() const
-    {
-        return spaces;
-    }
-
+    auto &getMap() const{return spaces;}
+    //ขอดู mode
+    auto &getMode() const {return mode;}
 
     // constructor
     TicTacToe();
@@ -74,14 +74,4 @@ public:
 
     void runGame();
 };
-class player
-{
-private:
-    TicTacToe *game;
-
-public:
-    player(TicTacToe *API) : game(API) {}
-    void Move();
-};
-
 #endif
