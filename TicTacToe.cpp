@@ -1,51 +1,34 @@
 #include "TicTacToe.h"
 #include "Utils.h"
 #include <iostream>
-#include <cstdlib>
-#include <cctype>
 #include <limits>
-#include <algorithm>
-#include <cmath>
-#include <ctime>
-#include <math.h>
 #include <vector>
 #include <memory>
-#include <iterator>
 
-TicTacToe::TicTacToe() : running(true), playerIcon('X'), computerIcon('O'), PlayerWins(0u), ComputerWins(0u), Ties(0u)
+TicTacToe::TicTacToe() : mode(random_model()), playerIcon('X'), computerIcon('O'), running(true), PlayerWins(0u), ComputerWins(0u), Ties(0u)
 {
-    // running = true;
-    // playerIcon = 'X';
-    // computerIcon = 'O';
-    // PlayerWins = 0u;
-    // ComputerWins = 0u;
-    // Ties = 0u;
-
     // สร้าง object player และ bot โดยส่ง this (ตัวเกมปัจจุบัน) เข้าไป
     ptrPlayer = std::make_unique<player>(this);
     ptrBot = std::make_unique<XOBot>(this);
-
-    resetBoard();
 }
-TicTacToe::~TicTacToe()
-{
-    std::cout << "Tic Tac Toe has Delate successfully" << std::endl;
-}
+TicTacToe::~TicTacToe() { std::cout << "Tic Tac Toe has Delate successfully" << std::endl; }
+Difficulty TicTacToe::random_model(){ auto random = std::rand() % 3; return static_cast<Difficulty>(random); }
 void TicTacToe::runGame()
 {
     while (true)
     {
+        std::system("cls");
+        mode = random_model();
         resetBoard();
         running = true;
 
-        int count = 0;
-        char status = ' ';
+        auto count = 0u;
+        auto status = ' ';
         while (running)
         {
             drawBoard();
 
             ptrPlayer->Move();
-            //drawBoard();
             count++;
 
             if (count >= 3)
@@ -59,7 +42,6 @@ void TicTacToe::runGame()
             }
 
             ptrBot->Move();
-            //drawBoard();
             count++;
 
             if (count >= 3)
@@ -76,32 +58,24 @@ void TicTacToe::runGame()
         drawBoard();
         Show_status(status);
         if (!PlayAgain())
-        {
             break;
-        }
+        
     }
 }
 void TicTacToe::displayScore()
 {
     std::cout << Color::GREEN << "Player (X): " << Color::RESET << PlayerWins << Color::MAGENTA << "  |  Computer (O): " << Color::RESET << ComputerWins << Color::YELLOW << " | Ties: " << Color::RESET << Ties << std::endl;
+    std::cout << Color::CYAN << " | Mode: ";
+    switch (mode)
+    {
+    case Difficulty::Easy: std::cout << "Easy"; break;
+    case Difficulty::Medium: std::cout << "Medium"; break;
+    case Difficulty::Hard: std::cout << "Hard"; break;
+    }
+    std::cout << Color::RESET << std::endl;
 }
 void TicTacToe::drawBoard()
 {
-    /*
-            |               |
-            |      x        |
-            |               |
-    --------|---------------|---------
-            |               |
-            |               |   o
-            |               |
-    --------|---------------|---------
-            |               |
-            |               |
-            |               |
-    */
-    // std::system("cls");
-    std::cout << std::endl;
     std::cout << std::endl;
     displayScore();
     std::cout << "==== XO XO XO====";
@@ -124,31 +98,10 @@ void TicTacToe::resetBoard()
     //     i = ' ';
     spaces.fill(' ');
 }
-void player::Move()
-{
-    int number;
-    while (true)
-    {
-        std::cout << "Enter number (1-9) to place your 'X': ";
-        std::cin >> number;
-        if (std::cin.fail())
-        {
-            std::cin.clear();
-            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-            std::cerr << Color::RED << "Invalid input. Please enter a number." << Color::RESET << std::endl;
-            continue;
-        }
-        number--; //(1-9) - 1
-        if (game->placeMove(number, game->getPlayerIcon()))
-            break;
-        else
-            std::cerr << Color::YELLOW << "Invalid move or spot taken." << Color::RESET << std::endl;
-    }
-}
 char TicTacToe::checkGameStatus()
 {
     /*
-    int wins[8][3] = {
+    std::array<std::array<3>,8> wins = {
         {0, 1, 2}, {3, 4, 5}, {6, 7, 8}, // นอน
         {0, 3, 6},
         {1, 4, 7},
@@ -158,9 +111,9 @@ char TicTacToe::checkGameStatus()
     };
     */
     // check ตั้ง นอน
-    for (auto i = 0u; i < 3; i++)
+    for (auto i = 0; i < 3; i++)
     {
-        auto rStart = i * 3u;
+        auto rStart = i * 3;
         // ตรวจแนวตั้ง
         if (spaces.at(rStart) != ' ' && spaces.at(rStart) == spaces.at(rStart + 1) && spaces[rStart] == spaces.at(rStart + 2))
             return spaces.at(rStart);
@@ -191,19 +144,17 @@ void TicTacToe::updateScore(char status)
 }
 bool TicTacToe::PlayAgain()
 {
-    std::string playagain;
+    char playagain;
     std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
     do
     {
         std::cout << "Play again?(y/n): ";
-        std::getline(std::cin, playagain);
-        for (char &c : playagain)
-        {
-            c = static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
-        }
-    } while (playagain != "y" && playagain != "n");
+        std::cin >> playagain;
+        playagain = std::tolower(playagain);
+        
+    } while (playagain != 'y' && playagain != 'n');
 
-    return playagain == "y";
+    return (playagain == 'y');
 }
 void TicTacToe::Show_status(char status)
 {
@@ -211,6 +162,6 @@ void TicTacToe::Show_status(char status)
         std::cout << Color::GREEN << "YOU WIN!" << Color::RESET << std::endl;
     else if (status == computerIcon)
         std::cout << Color::RED << "YOU LOSE!" << Color::RESET << std::endl;
-    else if (status == 'T')
+    else if (status == 'T')//Tie
         std::cout << Color::YELLOW << "IT'S A TIE!" << Color::RESET << std::endl;
 }

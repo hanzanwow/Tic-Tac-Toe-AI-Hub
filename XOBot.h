@@ -2,24 +2,16 @@
 #define XOBOT_H
 
 #include <array>
-#include <vector>
+
 class TicTacToe;
 
-enum class Difficulty
-{
-    Easy,
-    Medium,
-    Hard
-};
 class XOBot
 {
 private:
+    TicTacToe *game;
     char PLAYER;
     char AI;
-    std::array<char, 9> board;
 
-    TicTacToe *game;
-    Difficulty random_model();
     void EasyMode();
     void MediumMode();
 
@@ -35,7 +27,7 @@ private:
         int findBestMove();
 
     public:
-        HardMode(TicTacToe* ptr, char ai, char human);
+        HardMode(TicTacToe* API, char ai, char human);
         ~HardMode() = default;
         void Hard_Move();
     };
