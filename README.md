@@ -13,7 +13,8 @@ A classic Tic-Tac-Toe game reimagined with **Modern C++ (OOP)**. This project de
 ## 🛠️ Tech Stack
 - **Language:** C++ (Standard 17/20/23)
 - **Compiler:** MSYS2 / G++
-- **IDE:** VS Code
+   > Note: Please install the latest version of G++ before use.
+- **IDE:** VS Code(Text editor)
 
 ## ⚙️ Installation & How to Run
 
@@ -46,14 +47,23 @@ A classic Tic-Tac-Toe game reimagined with **Modern C++ (OOP)**. This project de
 
 4. The first to get 3 marks in a row (horizontal, vertical, or diagonal) wins.
 
+| Key | Action  |
+| :---: | :--- |
+| **1 - 9** | Choose a location on the board to place an 'X' mark. |
+| **Y / N** | Play Again / Exit |
+| **Enter** | Confirm |
+
+> **Note:** Positions 1-9 are arranged according to the Numpad keys on the keyboard (1=bottom left, 9=top right) or in normal order (1=top left), depending on the player's viewing angle.
+
 ## 👤 Author
 
 **Pattaradanai Amazutsumi**
 - Discord: **haszan._**
-- GitHub: **@hanzanwow** 
+- GitHub: **@hanzanwow**
+- Email: **natoodxd@gmail.com (or) 2511311215@tni.ac.th**
 
 ## 🎓 Project BackGround
-Created during my **1st year, 2nd semester** as a Computer Engineer student.
+Created during my **1st year, 2nd semester** as a Computer Engineer student,as a project submission for the CPE-113 course.
 <br>
 This project demostrates my understanding of AI algorithms and OOP principles.
 
@@ -61,7 +71,10 @@ This project demostrates my understanding of AI algorithms and OOP principles.
 - Implementing Minimax Algorithm from scratch
 - Object-Oriented Desing in Modern C++
 - Game stae mangement and Ai decision-making
+- Lambda function
+- Smart pointers
+- Basic API
 
 ## 🚀 Future Improvements
-- [ ] Add GIU using SFML
+- [ ] Add GUI using SFML
 - [ ] Implement Alpha-Beta Pruning
