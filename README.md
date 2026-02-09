@@ -1,8 +1,8 @@
-# Tic-Tac-Toe AI Hub 🎮
+# Tic-Tac-Toe AI Hub
 
 A classic Tic-Tac-Toe game reimagined with **Modern C++ (OOP)**. This project demonstrates the implementation of AI algorithms ranging from random moves to the unbeatable **Minimax Algorithm**.
 
-## 🚀 Features
+## Features
 - **Object-Oriented Design:** Clean architecture using C++ Classes and Smart Pointers.
 - **3 Difficulty Modes:**
   - 🟢 **Easy:** Random moves (Relaxing).
@@ -10,13 +10,13 @@ A classic Tic-Tac-Toe game reimagined with **Modern C++ (OOP)**. This project de
   - 🔴 **Hard:** Unbeatable AI using the **Minimax Algorithm**.
 - **Interactive UI:** Console-based interface with colorful text feedback.
 
-## 🛠️ Tech Stack
+## Tech Stack
 - **Language:** C++ (Standard 17/20/23)
 - **Compiler:** MSYS2 / G++
    > Note: Please install the latest version of G++ before use.
 - **IDE:** VS Code(Text editor)
 
-## ⚙️ Installation & How to Run
+## Installation & How to Run
 
 1. **Prerequisites**
    Ensure you have a C++ compiler installed (e.g., G++, Clang, or MSVC) that supports C++17 or later.
@@ -38,7 +38,7 @@ A classic Tic-Tac-Toe game reimagined with **Modern C++ (OOP)**. This project de
   ./gamehub
   ```
 
-## 🎮 How to Play
+## How to Play
 1. The game is played on a 3x3 grid.
 
 2. You are 'X' and the Computer is 'O'.
@@ -55,19 +55,19 @@ A classic Tic-Tac-Toe game reimagined with **Modern C++ (OOP)**. This project de
 
 > **Note:** Positions 1-9 are arranged according to the Numpad keys on the keyboard (1=bottom left, 9=top right) or in normal order (1=top left), depending on the player's viewing angle.
 
-## 👤 Author
+## Author
 
 **Pattaradanai Amazutsumi**
 - Discord: **haszan._**
 - GitHub: **@hanzanwow**
 - Email: **natoodxd@gmail.com (or) 2511311215@tni.ac.th**
 
-## 🎓 Project BackGround
+## Project BackGround
 Created during my **1st year, 2nd semester** as a Computer Engineer student,as a project submission for the CPE-113 course.
 <br>
 This project demostrates my understanding of AI algorithms and OOP principles.
 
-## ✨ What I Learned
+## What I Learned
 - Implementing Minimax Algorithm from scratch
 - Object-Oriented Desing in Modern C++
 - Game state management and AI decision-making
@@ -75,6 +75,6 @@ This project demostrates my understanding of AI algorithms and OOP principles.
 - Smart pointers
 - Basic API
 
-## 🚀 Future Improvements
+## Future Improvements
 - [ ] Add GUI using SFML
 - [ ] Implement Alpha-Beta Pruning
